@@ -1,0 +1,19 @@
+#header-box {
+  background-color: #3F51B5;
+  width: 100%;
+}
+#header-box .header-item {
+  color: white;
+}
+#header-box .header-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+#header-box #header-logo {
+  transform: scale(1.2);
+  margin-right: .625rem;
+  background-color: #303F9F;
+  height: .42rem;
+  width: 1.25rem;
+  margin-left: -0.06rem;
+  padding-left: .1rem;
+}
