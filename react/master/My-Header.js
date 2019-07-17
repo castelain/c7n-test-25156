@@ -1,35 +1,17 @@
 import React, { Component } from 'react';
-import { Menu, Icon, Button, Modal } from 'choerodon-ui';
-import { Dropdown } from 'choerodon-ui/pro';
+import { Menu, Icon } from 'choerodon-ui';
 import { Link } from 'react-router-dom';
 import '../styles/my-header.less';
-import { inject, observer } from 'mobx-react';
-import myHeaderStore from '../role/stores/my-header-store';
 import MySidebar from './components/My-Sidebar';
 import MyPopover from './components/My-Popover';
+import MyDropdown from './components/My-Dropdown';
 
-// @inject('myHeaderStore')
-@observer
 class MyHeader extends Component {
     constructor(props) {
         super(props);
         this.state = {
         }
-        this.getSelectMenu = this.getSelectMenu.bind(this);
     }
-
-    // 导航栏上选择组织的下拉菜单
-    getSelectMenu = () => (
-        <Menu>
-            {
-                myHeaderStore.getOrganizationData.map(({ id, name }) => (
-                    <Menu.Item key={id}>
-                        <a target="_blank" rel="noopener noreferrer" href="https://choerodon.io">{name}</a>
-                    </Menu.Item>
-                ))
-            }
-        </Menu>
-    );
 
     render() {
         return (
@@ -64,9 +46,6 @@ class MyHeader extends Component {
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="role-manage" className="right">
-                    {/* <Link to="/25156/role-manage" className="header-item">
-                        用户设置
-                    </Link> */}
                     <MyPopover />
                 </Menu.Item>
                 <Menu.Item key="message" className="right">
@@ -83,20 +62,10 @@ class MyHeader extends Component {
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="select-organization" className="right">
-                    <Dropdown overlay={this.getSelectMenu()} placement="bottomCenter">
-                        <Button className="header-item">
-                            请选择组织 <Icon type="arrow_drop_down" />
-                        </Button>
-                    </Dropdown>
+                    <MyDropdown />
                 </Menu.Item>  
             </Menu>
         );
-    }
-
-    componentDidMount() {
-        this.setState({
-
-        })
     }
 }
 

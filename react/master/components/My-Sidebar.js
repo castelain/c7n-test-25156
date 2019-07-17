@@ -24,12 +24,12 @@ class MySidebar extends Component {
 
 	render() {
 		return (
-			<div style={{ color: 'white' }}>
+			<div style={{ color: "white" }}>
 				<div onClick={ this.showModal }>
 					<Icon type="notification_setting" />
 				</div>
 				<Sidebar
-					style={{ marginTop: '.5rem'}}
+					style={{ marginTop: ".5rem", marginLeft: "6rem"}}
 					title="消息列表"
 					visible={ myHeaderStore.visible }
 					onOk={ this.handleOk }

@@ -50,7 +50,7 @@ class MyPopover extends Component {
                         <List.Item>
                             <List.Item.Meta
                                 avatar={<Icon type={item.icon} />}
-                                title={<Link to=></Link>{item.name === "接收设置" ? "平台管理" : item.name}</a>}
+                                title={<Link to={ `/25156/${ item.route }` }>{item.name === "接收设置" ? "平台管理" : item.name}</Link>}
                             />
                         </List.Item>
                     )}
