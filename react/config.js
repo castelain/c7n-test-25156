@@ -4,11 +4,11 @@ const config = {
   buildType: 'single',
   resourcesLevel: ['site', 'origanization', 'project', 'user'],
   
-  master: '@choerodon/master',
+  // master: '@choerodon/master',
   dashboard: {},
 
-  // master: './react/master',
-  // homePath: './react/home',
+  master: './react/master',
+  homePath: './react/home',
 };
 
 module.exports = config;
