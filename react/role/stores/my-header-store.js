@@ -1,4 +1,5 @@
 import { observable, computed, action } from 'mobx';
+import { axios } from '@choerodon/boot';
 
 class MyHeaderStore {
     // 组织选择的数据源
@@ -39,7 +40,13 @@ class MyHeaderStore {
             content: '这是消息3！'
         }
     ]
-    
+
+    // 获取用户信息的 Api 地址
+    @observable userInfoUrl = 'http://api.staging.saas.hand-china.com/iam/v1/users/selfhttp://api.staging.saas.hand-china.com/iam/v1/users/self';
+
+    // 获取用户操作列表的 Api 地址
+    @observable userOptUrl = 'http://api.staging.saas.hand-china.com/iam/v1/menus?code=choerodon.code.top.user&source_id=0';
+
     @computed
     get getOrganizationData() {
         return this.organizationData.slice();
@@ -48,6 +55,23 @@ class MyHeaderStore {
     @computed
     get getMessages() {
         return this.messages.slice();
+    }
+
+    // 返回获取用户信息的 Promise 对象
+    @computed
+    get getUserInfo() {
+        return axios.get(this.userInfoUrl);
+    }
+
+    // 返回获取用户操作列表的 Promise 对象
+    @computed
+    get getUserOpt() {
+        return axios.get(this.userOptUrl,{
+            // auth: {
+            //     username: '25156',
+            //     password: 'Wql19960722'
+            // }
+        });
     }
 
     @action

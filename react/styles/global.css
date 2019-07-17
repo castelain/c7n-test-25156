@@ -7,3 +7,12 @@ body {
 .left {
   float: left !important;
 }
+.text-info {
+  color: rgba(0, 0, 0, 0.2);
+}
+.text-normal {
+  color: rgba(0, 0, 0, 0.4);
+}
+.text-important {
+  color: rgba(0, 0, 0, 0.6);
+}

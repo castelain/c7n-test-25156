@@ -6,8 +6,7 @@ import '../styles/my-header.less';
 import { inject, observer } from 'mobx-react';
 import myHeaderStore from '../role/stores/my-header-store';
 import MySidebar from './components/My-Sidebar';
-
-const { Sidebar } = Modal;
+import MyPopover from './components/My-Popover';
 
 // @inject('myHeaderStore')
 @observer
@@ -17,9 +16,6 @@ class MyHeader extends Component {
         this.state = {
         }
         this.getSelectMenu = this.getSelectMenu.bind(this);
-        this.showModal = this.showModal.bind(this);
-        this.handleOk = this.handleOk.bind(this);
-        this.handleCancel = this.handleCancel.bind(this);
     }
 
     // 导航栏上选择组织的下拉菜单
@@ -34,25 +30,6 @@ class MyHeader extends Component {
             }
         </Menu>
     );
-
-    // 消息弹出框的相关方法
-    showModal = () => {
-        this.setState({
-          messageBoxVisible: !this.state.messageBoxVisible
-        });
-      }
-    
-    handleOk = () => {
-        this.setState({
-            messageBoxVisible: false,
-        });
-    }
-
-    handleCancel = () => {
-        this.setState({
-            messageBoxVisible: false,
-        });
-    }
 
     render() {
         return (
@@ -87,7 +64,10 @@ class MyHeader extends Component {
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="role-manage" className="right">
-                    <Link to="/25156/role-manage" className="header-item">用户设置</Link>
+                    {/* <Link to="/25156/role-manage" className="header-item">
+                        用户设置
+                    </Link> */}
+                    <MyPopover />
                 </Menu.Item>
                 <Menu.Item key="message" className="right">
                     <MySidebar className="header-item" />
