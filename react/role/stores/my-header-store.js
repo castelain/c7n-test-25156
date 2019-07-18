@@ -6,19 +6,23 @@ class MyHeaderStore {
     @observable organizationData = [
         {
             id: 1,
-            name: '上海汉得信息技术股份有限公司'
+            name: '上海汉得信息技术股份有限公司',
+            route: '/25156/hand-china'
         },
         {
             id: 2,
-            name: '猪齿鱼'
+            name: '猪齿鱼',
+            route: '/25156/choerodon'
         },
         {
             id: 3,
-            name: '敏捷测试专用'
+            name: '敏捷测试专用',
+            route: '/25156/agile-testing'
         },
         {
             id: 4,
-            name: '产品运营'
+            name: '产品运营',
+            route: '/25156/product-operation'
         }
     ];
 

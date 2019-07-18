@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Dropdown } from 'choerodon-ui/pro';
 import { Menu, Button, Icon } from 'choerodon-ui';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import myHeaderStore from '../../role/stores/my-header-store';
 
 @observer
@@ -16,9 +17,9 @@ class MyDropdown extends Component {
     getSelectMenu = () => (
         <Menu>
             {
-                myHeaderStore.getOrganizationData.map(({ id, name }) => (
+                myHeaderStore.getOrganizationData.map(({ id, name, route }) => (
                     <Menu.Item key={id}>
-                        <a target="_blank" rel="noopener noreferrer" href="https://choerodon.io">{name}</a>
+                        <Link to={ route }>{ name }</Link>
                     </Menu.Item>
                 ))
             }

@@ -1,5 +1,6 @@
 body {
   overflow-x: hidden;
+  color: rgba(0, 0, 0, 0.6);
 }
 .right {
   float: right !important;
@@ -10,9 +11,12 @@ body {
 .text-info {
   color: rgba(0, 0, 0, 0.2);
 }
-.text-normal {
-  color: rgba(0, 0, 0, 0.4);
-}
 .text-important {
   color: rgba(0, 0, 0, 0.8);
+}
+.box-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2.4rem;
 }

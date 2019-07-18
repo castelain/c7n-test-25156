@@ -1,10 +1,11 @@
 // 全局化的样式配置
 @info: rgba(0, 0, 0, .2);
-@normal: rgba(0, 0, 0, .4);
+@normal: rgba(0, 0, 0, .6);
 @important: rgba(0, 0, 0, .8);
 
 body {
     overflow-x: hidden;
+    color: @normal;
 }
 
 .right {
@@ -19,10 +20,14 @@ body {
     color: @info;
 }
 
-.text-normal {
-    color: @normal;
-}
-
 .text-important {
     color: @important;
+}
+
+// 设置 dom 元素水平垂直居中的容器样式
+.box-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2.4rem;
 }
