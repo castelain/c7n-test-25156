@@ -1,7 +1,7 @@
 import { observable, computed, action } from 'mobx';
 import React from 'react';
 import { axios } from '@choerodon/boot';
-import { Button } from 'choerodon-ui';
+import { Button, Icon } from 'choerodon-ui';
 
 class RoleManageStore {
     // 角色管理页面二级菜单数据
@@ -36,7 +36,7 @@ class RoleManageStore {
         }
     ];
     // level 下拉框按钮数据源
-    @observable levelBtnObj =   {
+    @observable levelBtnObj = {
         id: 0,
         name: '全局',
         code: 'site'
@@ -80,25 +80,33 @@ class RoleManageStore {
         }
     ];
 
+    // 存储角色数据
+    @observable roleData = {};
+
     // 返回对应请求层级的 Promise 对象
     @action
     getRoleDataPromise(params) {
-        if(params.hasOwnProperty('page') && params.hasOwnProperty('size')) {
+        if (params.hasOwnProperty('page') && params.hasOwnProperty('size')) {
             let url = `${this.baseUrl}&page=${params.page}&size=${params.size}`;
             let data = {
                 level: this.levelBtnObj.code,
                 params: params.params
             };
             return axios.post(url, JSON.stringify(data));
-        }else {
+        } else {
             return Promise.reject(new Error('Bad request: missing page or size!'));
         }
-        
+
     }
 
     @action
     setLevelBtnObj(key) {
         this.levelBtnObj = this.getLevelData[key];
+    }
+
+    @action
+    setRoleData(value) {
+        this.roleData = value;
     }
 
     @computed
@@ -110,7 +118,45 @@ class RoleManageStore {
     get getLevelData() {
         return this.levelData.slice();
     }
-    
+
+    @computed
+    get getRoleData() {
+        console.log(this.roleData);
+        if (this.roleData === {}) {
+            this.setRoleData();
+        }
+        // this.roleData.data = this.roleData.data.slice();
+        return this.roleData;
+    }
+
+    @action
+    setRoleData(params) {
+        params = params || { "params": [], "page": 1, "size": 10 };
+        let promiseRoleData = roleManageStore.getRoleDataPromise(params);
+        promiseRoleData.then((response) => {
+            let roleList = response.list;
+            for (let i = 0; i < roleList.length; i++) {
+                roleList[i]['key'] = roleList[i].id;
+                roleList[i].buildIn = roleList[i].buildIn ? <div><Icon type="settings" style={{ marginRight: '.05rem' }} />预定义</div> : <div><Icon type="av_timer" style={{ marginRight: '.05rem' }} />自定义</div>;
+                roleList[i].enabled = roleList[i].enabled ? <div><Icon type="check_circle" style={{ color: 'rgb(0, 191, 165)', marginRight: '.05rem' }} />启用</div> : <div><Icon type="remove_circle" style={{ color: 'rgb(211, 211, 211)', marginRight: '.05rem' }} />停用</div>;
+                if (roleList[i].level === 'site') {
+                    roleList[i].level = '全局';
+                } else if (roleList[i].level === 'organization') {
+                    roleList[i].level = '组织';
+                } else if (roleList[i].level === 'project') {
+                    roleList[i].level = '项目';
+                }
+            }
+            const pagination = {};
+            pagination.total = response.total;
+            let data = {
+                loading: false,
+                data: roleList,
+                pagination,
+            };
+            this.roleData = data;
+        });
+    }
 }
 
 const roleManageStore = new RoleManageStore();

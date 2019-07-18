@@ -14,23 +14,20 @@ class SubHeader extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick = ({ item, key, keyPath }) => {
+    handleClick = (({ item, key, keyPath }) => {
         roleManageStore.setLevelBtnObj(key);
         let params = { "params": [], "page": 1, "size": 10 };
-        let rolePromise = roleManageStore.getRoleDataPromise(params);
-        rolePromise.then((response) => {
-            roleManageStore.setRoleData(response);
-        })
-        this.setState();
-    }
+        roleManageStore.setRoleData(params);
+
+    })
 
     getMenu() {
         return (
-            <Menu style={{ width: '1rem' }} onClick={ this.handleClick }>
+            <Menu style={{ width: '1rem' }} onClick={this.handleClick}>
                 {
                     roleManageStore.getLevelData.map(({ id, name }) => (
-                        <Menu.Item key={ id }>
-                            { name }
+                        <Menu.Item key={id}>
+                            {name}
                         </Menu.Item>
                     ))
                 }
@@ -42,10 +39,10 @@ class SubHeader extends Component {
         return (
             <div className='box-content'>
                 <div id='sub-header'>
-                    <h2>{ roleManageStore.partName }</h2>
-                    <Dropdown overlay={ this.getMenu() } trigger={['click']}>
+                    <h2>{roleManageStore.partName}</h2>
+                    <Dropdown overlay={this.getMenu()} trigger={['click']}>
                         <a className="c7n-dropdown-link" href="#">
-                            { roleManageStore.levelBtnObj.name } <Icon type="arrow_drop_down" />
+                            {roleManageStore.levelBtnObj.name} <Icon type="arrow_drop_down" />
                         </a>
                     </Dropdown>
                     <Button type="primary" funcType="flat" icon="playlist_add">创建角色</Button>
@@ -53,8 +50,8 @@ class SubHeader extends Component {
                     <Button type="primary" funcType="flat" icon="refresh">刷新</Button>
                 </div>
                 <div id='sub-header-info'>
-                    <h2>{ roleManageStore.title }</h2>
-                    <p>{ roleManageStore.description }</p>
+                    <h2>{roleManageStore.title}</h2>
+                    <p>{roleManageStore.description}</p>
                 </div>
             </div>
         );

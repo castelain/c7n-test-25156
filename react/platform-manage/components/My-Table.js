@@ -21,12 +21,13 @@ class MyTable extends Component {
         this.setState({
             pagination: pager,
         });
-        this.getData({
+        let params = {
             size: pagination.pageSize,
             page: pagination.current,
             level: 'site',
             params: []
-        });
+        };
+        roleManageStore.setRoleData(params);
     }
 
     onSelectChange = (selectedRowKeys) => {
@@ -35,7 +36,8 @@ class MyTable extends Component {
     }
 
     render() {
-        const { loading, selectedRowKeys } = this.state;
+        const { selectedRowKeys } = this.state;
+        const { loading, data, pagination } = roleManageStore.getRoleData;
         const rowSelection = {
             selectedRowKeys,
             onChange: this.onSelectChange,
@@ -44,8 +46,8 @@ class MyTable extends Component {
             <div>
                 <Table rowSelection={rowSelection}
                     columns={roleManageStore.getRoleColumn}
-                    dataSource={this.state.roleData}
-                    pagination={this.state.pagination}
+                    dataSource={ data }
+                    pagination={pagination }
                     loading={loading}
                     onChange={this.handleTableChange}
                 />
@@ -53,59 +55,8 @@ class MyTable extends Component {
         );
     }
 
-    // getData() {
-    //     let promiseRoleData = roleManageStore.getRoleDataPromise({ "level": "site", "params": [] });
-    //     promiseRoleData.then((response) => {
-    //         let roleList = response.list;
-    //         for (let i = 0; i < roleList.length; i++) {
-    //             roleList[i]['key'] = roleList[i].id;
-    //             roleList[i].buildIn = roleList[i].buildIn ? <div><Icon type="settings" style={{ marginRight: '.05rem' }} />预定义</div> : <div><Icon type="av_timer" style={{ marginRight: '.05rem' }} />自定义</div>;
-    //             roleList[i].enabled = roleList[i].enabled ? <div><Icon type="check_circle" style={{ color: 'rgb(0, 191, 165)', marginRight: '.05rem' }} />启用</div> : <div><Icon type="remove_circle" style={{ color: 'rgb(211, 211, 211)', marginRight: '.05rem' }} />停用</div>;
-    //             if (roleList[i].level === 'site') {
-    //                 roleList[i].level = '全局';
-    //             } else if (roleList[i].level === 'organization') {
-    //                 roleList[i].level = '组织';
-    //             } else if (roleList[i].level === 'project') {
-    //                 roleList[i].level = '项目';
-    //             }
-    //         }
-    //         // console.log(roleList);
-    //         this.setState({
-    //             roleData: roleList,
-    //             roleCount: response.total
-    //         })
-    //     });
-    // }
-
-    getData(params) {
-        let promiseRoleData = roleManageStore.getRoleDataPromise(params);
-        promiseRoleData.then((response) => {
-            let roleList = response.list;
-            for (let i = 0; i < roleList.length; i++) {
-                roleList[i]['key'] = roleList[i].id;
-                roleList[i].buildIn = roleList[i].buildIn ? <div><Icon type="settings" style={{ marginRight: '.05rem' }} />预定义</div> : <div><Icon type="av_timer" style={{ marginRight: '.05rem' }} />自定义</div>;
-                roleList[i].enabled = roleList[i].enabled ? <div><Icon type="check_circle" style={{ color: 'rgb(0, 191, 165)', marginRight: '.05rem' }} />启用</div> : <div><Icon type="remove_circle" style={{ color: 'rgb(211, 211, 211)', marginRight: '.05rem' }} />停用</div>;
-                if (roleList[i].level === 'site') {
-                    roleList[i].level = '全局';
-                } else if (roleList[i].level === 'organization') {
-                    roleList[i].level = '组织';
-                } else if (roleList[i].level === 'project') {
-                    roleList[i].level = '项目';
-                }
-            }
-            const pagination = { ...this.state.pagination };
-            pagination.total = response.total;
-            this.setState({
-                loading: false,
-                roleData: roleList,
-                pagination,
-            });
-        });
-    }
-
     componentDidMount() {
-        let params = { "params": [], "page": 1, "size": 10 };
-        this.getData(params);
+        roleManageStore.setRoleData({ "params": [], "page": 1, "size": 10 });
     }
 }
 
