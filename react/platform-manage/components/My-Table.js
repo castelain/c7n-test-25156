@@ -1,32 +1,20 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'choerodon-ui';
+import { observer } from 'mobx-react';
+import roleManageStore from '../../role/stores/role-manage-store';
+import Item from 'choerodon-ui/lib/list/Item';
 
-const columns = [{
-    title: 'Name',
-    dataIndex: 'name',
-}, {
-    title: 'Age',
-    dataIndex: 'age',
-}, {
-    title: 'Address',
-    dataIndex: 'address',
-}];
-
-const data = [];
-for (let i = 0; i < 46; i++) {
-    data.push({
-        key: i,
-        name: `Edward King ${i}`,
-        age: 32,
-        address: `London, Park Lane no. ${i}`,
-    });
-}
-
+@observer
 class MyTable extends Component {
-    state = {
-        selectedRowKeys: [], // Check here to configure the default column
-        loading: false,
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedRowKeys: [], // Check here to configure the default column
+            loading: false,
+            roleData: [],
+            roleCount: 10,
+        };
+    }
 
     start = () => {
         this.setState({ loading: true });
@@ -53,22 +41,24 @@ class MyTable extends Component {
         const hasSelected = selectedRowKeys.length > 0;
         return (
             <div>
-                {/* <div style={{ marginBottom: 16 }}>
-                    <Button
-                        type="primary"
-                        onClick={this.start}
-                        disabled={!hasSelected}
-                        loading={loading}
-                    >
-                        Reload
-          </Button>
-                    <span style={{ marginLeft: 8 }}>
-                        {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
-                    </span>
-                </div> */}
-                <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+                <Table rowSelection={rowSelection} columns={roleManageStore.getRoleColumn} dataSource={this.state.roleData} />
             </div>
         );
+    }
+
+    componentDidMount() {
+        let promiseRoleData = roleManageStore.getRoleDataPromise({ "level": "site", "params": [] });
+        promiseRoleData.then((response) => {
+            let roleList = response.list;
+            for (let i = 0; i < roleList.length; i++) {
+                roleList[i]['key'] = roleList[i].id;
+            }
+            console.log(roleList);
+            this.setState({
+                roleData: roleList,
+                roleCount: response.total
+            })
+        });
     }
 }
 

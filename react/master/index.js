@@ -8,6 +8,7 @@ export default class Master extends Component {
 		return (
 			<div>
 				<MyHeader />
+				<div style={{ marginTop: '.34rem' }}>&nbsp;</div>
 				<AutoRouter />
 			</div>
 		);
