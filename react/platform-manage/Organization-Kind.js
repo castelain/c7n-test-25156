@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'choerodon-ui';
-import MySidemenu from '../../master/My-Sidemenu';
+import MySidemenu from '../master/My-Sidemenu';
 
-class RoleManage extends Component {
+class OrganizationKind extends Component {
     constructor(props) {
         super(props);
         this.state = {}
@@ -14,8 +14,8 @@ class RoleManage extends Component {
                     <MySidemenu />
                 </Col>
                 <Col span={ 18 }>
-                    <div>
-                        <h1>角色管理</h1>
+                    <div className='box-center'>
+                        <h1>组织类型</h1>
                     </div>
                 </Col>
             </Row>
@@ -23,4 +23,4 @@ class RoleManage extends Component {
     }
 }
 
-export default RoleManage;
+export default OrganizationKind;

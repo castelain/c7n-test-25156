@@ -1,10 +1,13 @@
 @primaryColor: #3F51B5;
-@itemGutter: .1rem;
+@itemGutter: .08rem;
 
 #header-box {
     background-color: @primaryColor;
+    position: fixed;
     width: 100%;
-    // z-index: 1000;
+    box-shadow: 0 .01rem .05rem rgba(0, 0, 0, .2);
+    z-index: 1000;
+    top: 0;
     .header-item {
         color: white;
         // padding: @itemGutter;

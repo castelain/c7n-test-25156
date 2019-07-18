@@ -1,6 +1,10 @@
 #header-box {
   background-color: #3F51B5;
+  position: fixed;
   width: 100%;
+  box-shadow: 0 0.01rem 0.05rem rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  top: 0;
 }
 #header-box .header-item {
   color: white;

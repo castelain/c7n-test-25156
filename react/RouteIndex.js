@@ -7,9 +7,9 @@ import Choerodon from './choerodon/index';
 import HandChina from './hand-china/index';
 import ProductOperation from './product-operation/index';
 import PlatformManage from './platform-manage/index';
-import RoleManege from './platform-manage/components/Role-Manage';
-import MenuSettings from './platform-manage/components/Menu-Settings';
-import OrganizationKind from './platform-manage/components/Organization-Kind';
+import RoleManege from './platform-manage/Role-Manage';
+import MenuSettings from './platform-manage/Menu-Settings';
+import OrganizationKind from './platform-manage/Organization-Kind';
 
 // const RoleManage = asyncRouter(() => import('./role-manage/index'));
 

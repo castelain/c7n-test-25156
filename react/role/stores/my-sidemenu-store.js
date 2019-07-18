@@ -33,7 +33,7 @@ class MySidemenuStore {
 
     @computed
     get getSelectedKeys() {
-        return this.selectedKeys;
+        return this.selectedKeys.slice();
     }
 
     @action

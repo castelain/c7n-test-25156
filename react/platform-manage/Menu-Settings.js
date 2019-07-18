@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'choerodon-ui';
-import MySidemenu from '../../master/My-Sidemenu';
+import MySidemenu from '../master/My-Sidemenu'; 
 
 class MenuSettings extends Component {
     constructor(props) {
@@ -9,12 +9,12 @@ class MenuSettings extends Component {
     }
     render() {
         return (
-            <Row gutter={ 16 }>
-                <Col span={ 6 }>
+            <Row gutter={16}>
+                <Col span={6}>
                     <MySidemenu />
                 </Col>
-                <Col span={ 18 }>
-                    <div>
+                <Col span={18}>
+                    <div className='box-center'>
                         <h1>菜单设置</h1>
                     </div>
                 </Col>

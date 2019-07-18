@@ -11,14 +11,19 @@ class MyDropdown extends Component {
         super(props);
         this.state = {};
         this.getSelectMenu = this.getSelectMenu.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick = ({ item, key, keyPath }) => {
+        myHeaderStore.setSelectedText(key);
     }
 
      // 导航栏上选择组织的下拉菜单
     getSelectMenu = () => (
-        <Menu>
+        <Menu onClick={ this.handleClick }>
             {
                 myHeaderStore.getOrganizationData.map(({ id, name, route }) => (
-                    <Menu.Item key={id}>
+                    <Menu.Item key={ id }>
                         <Link to={ route }>{ name }</Link>
                     </Menu.Item>
                 ))
@@ -30,7 +35,7 @@ class MyDropdown extends Component {
         return (
             <Dropdown overlay={ this.getSelectMenu() } placement="bottomCenter">
                 <Button className="header-item">
-                    请选择组织 <Icon type="arrow_drop_down" />
+                    { myHeaderStore.selectedText } <Icon type="arrow_drop_down" />
                 </Button>
             </Dropdown>
         );

@@ -14,6 +14,11 @@ class MyPopover extends Component {
             userOpt: [],
         }
         this.getContent = this.getContent.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick = () => {
+        myHeaderStore.resetSelectedText();
     }
 
     getContent = () => {
@@ -22,21 +27,19 @@ class MyPopover extends Component {
                 <List
                     itemLayout="horizontal"
                     split={false}
+                    onClick={ this.handleClick }
                     header={
                         <div>
-                            {/* <Avatar src={ this.state.userInfo.imageUrl } />
-                            <span>{ this.state.userInfo.loginName }</span>
-                            <br />
-                            <span>{ this.state.userInfo.email }</span> */}
-                            <Avatar src="https://minio.choerodon.com.cn/iam-service/file_89927f672a40405796cc92cbd4639615_F604DA1C970E273847FF7D9FA0867D15.gif"
+                            <Avatar src={ this.state.userInfo.imageUrl } 
                                 style={{ margin: "0 10px 20px 0" }}
                                 size="large"
                             />
                             <div style={{ display: "inline-block", marginLeft: "20px" }}>
-                                <span className="text-important">admin</span>
+                                <span className="text-important">{ this.state.userInfo.loginName }</span>
                                 <br />
-                                <span className="text-info">admin@example.org</span>
+                                <span className="text-info">{ this.state.userInfo.email }</span>
                             </div>
+                            <br />
                         </div>}
                     footer={
                         <List.Item>
@@ -63,8 +66,7 @@ class MyPopover extends Component {
         return (
             <div>
                 <Popover content={this.getContent()} arrowPointAtCenter trigger="click" placement="bottomRight">
-                    {/* <Avatar src={ this.state.userInfo.imageUrl } /> */}
-                    <Avatar src="https://minio.choerodon.com.cn/iam-service/file_89927f672a40405796cc92cbd4639615_F604DA1C970E273847FF7D9FA0867D15.gif" />
+                    <Avatar src={ this.state.userInfo.imageUrl } />
                 </Popover>
             </div>
         );
@@ -74,37 +76,18 @@ class MyPopover extends Component {
         let promiseInfo = myHeaderStore.getUserInfo;
         let promiseOpt = myHeaderStore.getUserOpt;
 
-        // axios.all([ promiseInfo, promiseOpt ])
-        //     .then(axios.spread((userInfo, userOpt) => {
-        //         this.setState({
-        //             userInfo: userInfo.data,
-        //             userOpt: userOpt.data.subMenus.subMenus
-        //         });
+        axios.all([ promiseInfo, promiseOpt ])
+            .then(axios.spread((userInfo, userOpt) => {
+                this.setState({
+                    userInfo: userInfo,
+                    userOpt: userOpt.subMenus[0].subMenus
+                });
 
-        //     })
-        // )
-        // .catch((error) => {
-        //     console.log('Error: ', error);
-        // });
-
-        promiseInfo.then((response) => {
-            this.setState({
-                userInfo: response
-            });
-        })
-            .catch((error) => {
-                console.log('Error: ', error);
-            });
-
-        promiseOpt.then((response) => {
-            // console.log(response);
-            this.setState({
-                userOpt: response.subMenus[0].subMenus
-            });
-        })
-            .catch((error) => {
-                console.log('Error: ', error);
-            });
+            })
+        )
+        .catch((error) => {
+            console.log('Error: ', error);
+        });
     }
 }
 
