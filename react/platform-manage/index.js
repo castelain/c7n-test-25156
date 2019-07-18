@@ -10,10 +10,10 @@ class PlatformManage extends Component {
     render() {
         return (
             <Row>
-                <Col span={ 4 }>
+                <Col span={ 5 }>
                     <MySidemenu />
                 </Col>
-                <Col span={ 20 }>
+                <Col span={ 19 }>
                     <div className='box-center'>
                         <h1>平台管理</h1>
                     </div>

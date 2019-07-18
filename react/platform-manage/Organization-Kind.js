@@ -9,11 +9,11 @@ class OrganizationKind extends Component {
     }
     render() {
         return (
-            <Row gutter={ 16 }>
-                <Col span={ 6 }>
+            <Row>
+                <Col span={ 5 }>
                     <MySidemenu />
                 </Col>
-                <Col span={ 18 }>
+                <Col span={ 19 }>
                     <div className='box-center'>
                         <h1>组织类型</h1>
                     </div>

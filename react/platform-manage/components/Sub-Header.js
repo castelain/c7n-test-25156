@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Divider, Menu, Icon, Button } from 'choerodon-ui';
+import { Menu, Icon, Button } from 'choerodon-ui';
 import { Dropdown } from 'choerodon-ui/pro';
 import { observer } from 'mobx-react';
 import roleManageStore from '../../role/stores/role-manage-store';
@@ -11,18 +11,29 @@ class SubHeader extends Component {
         super(props);
         this.state = {};
         this.getMenu = this.getMenu.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick = ({ item, key, keyPath }) => {
+        roleManageStore.setLevelBtnObj(key);
+        let params = { "params": [], "page": 1, "size": 10 };
+        let rolePromise = roleManageStore.getRoleDataPromise(params);
+        rolePromise.then((response) => {
+            roleManageStore.setRoleData(response);
+        })
+        this.setState();
     }
 
     getMenu() {
         return (
-            <Menu style={{ width: '1rem' }}>
-                <Menu.Item key="0">
-                    <a href="https://choerodon.io/">全局</a>
-                </Menu.Item>
-                <Menu.Item key="1">
-                    <a href="https://choerodon.io/">组织</a>
-                </Menu.Item>
-                <Menu.Item key="3">项目</Menu.Item>
+            <Menu style={{ width: '1rem' }} onClick={ this.handleClick }>
+                {
+                    roleManageStore.getLevelData.map(({ id, name }) => (
+                        <Menu.Item key={ id }>
+                            { name }
+                        </Menu.Item>
+                    ))
+                }
             </Menu>
         )
     }
@@ -30,23 +41,21 @@ class SubHeader extends Component {
     render() {
         return (
             <div className='box-content'>
-                <div>
+                <div id='sub-header'>
                     <h2>{ roleManageStore.partName }</h2>
                     <Dropdown overlay={ this.getMenu() } trigger={['click']}>
                         <a className="c7n-dropdown-link" href="#">
-                            全局 <Icon type="arrow_drop_down" />
+                            { roleManageStore.levelBtnObj.name } <Icon type="arrow_drop_down" />
                         </a>
                     </Dropdown>
                     <Button type="primary" funcType="flat" icon="playlist_add">创建角色</Button>
                     <Button type="primary" funcType="flat" icon="content_copy">基于所选角色创建</Button>
                     <Button type="primary" funcType="flat" icon="refresh">刷新</Button>
                 </div>
-                <Divider className='divider' />
-                <div>
+                <div id='sub-header-info'>
                     <h2>{ roleManageStore.title }</h2>
                     <p>{ roleManageStore.description }</p>
                 </div>
-                {/* <Divider className='divider' /> */}
             </div>
         );
     }

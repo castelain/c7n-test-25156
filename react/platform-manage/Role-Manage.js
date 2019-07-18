@@ -13,12 +13,15 @@ class RoleManage extends Component {
         return (
             <Row>
                 <Col span={ 5 }>
-                    <MySidemenu />
+                    <div style={{ position: 'fixed' }}>
+                        <MySidemenu />
+                    </div>
                 </Col>
                 <Col span={ 19 }>
                     <SubHeader />
-                    {/* <Divider /> */}
-                    <MyTable />
+                    <div style={{ paddingRight: '.5rem', marginBottom: '.5rem' }}>
+                        <MyTable />
+                    </div>
                 </Col>
             </Row>
         );
