@@ -1,7 +1,7 @@
 import { observable, computed, action } from 'mobx';
 import React from 'react';
 import { axios } from '@choerodon/boot';
-import { Button, Icon } from 'choerodon-ui';
+import { Button, Icon, Input } from 'choerodon-ui';
 
 class RoleManageStore {
     // 角色管理页面二级菜单数据
@@ -43,42 +43,69 @@ class RoleManageStore {
     };
 
     // 角色表格数据源
-    // 表头列名数据
-    @observable columns = [
-        {
-            title: '名称',
-            dataIndex: 'name',
-            key: 'name'
-        },
-        {
-            title: '编码',
-            dataIndex: 'code',
-            key: 'code'
-        },
-        {
-            title: '层级',
-            dataIndex: 'level',
-            key: 'level'
-        },
-        {
-            title: '来源',
-            dataIndex: 'buildIn',
-            key: 'buildIn'
-        },
-        {
-            title: '状态',
-            dataIndex: 'enabled',
-            key: 'enabled'
-        },
-        {
-            title: '',
-            // dataIndex: 'operations',
-            key: 'operations',
-            render: (text, record) => (
-                <Button shape="circle" funcType="flat" icon="more_vert" />
-            )
-        }
-    ];
+    // // 表头列名数据
+    // @observable columns = [
+    //     {
+    //         title: '名称',
+    //         dataIndex: 'name',
+    //         key: 'name',
+    //         filterDropdown: (
+    //             <div className="custom-filter-dropdown">
+    //                 <Input
+    //                     ref={ele => this.searchInput = ele}
+    //                     placeholder="Search name"
+    //                     value={this.state.searchText}
+    //                     onChange={this.onInputChange}
+    //                     onPressEnter={this.onSearch}
+    //                 />
+    //                 <Button type="primary" onClick={this.onSearch}>Search</Button>
+    //             </div>
+    //         ),
+    //         filterIcon: <Icon type="smile-o" style={{ color: this.state.filtered ? '#108ee9' : '#aaa' }} />,
+    //         filterDropdownVisible: this.state.filterDropdownVisible,
+    //         onFilterDropdownVisibleChange: (visible) => {
+    //             this.setState({
+    //                 filterDropdownVisible: visible,
+    //             }, () => this.searchInput && this.searchInput.focus());
+    //         },
+    //     },
+    //     {
+    //         title: '编码',
+    //         dataIndex: 'code',
+    //         key: 'code'
+    //     },
+    //     {
+    //         title: '层级',
+    //         dataIndex: 'level',
+    //         key: 'level'
+    //     },
+    //     {
+    //         title: '来源',
+    //         dataIndex: 'buildIn',
+    //         key: 'buildIn'
+    //     },
+    //     {
+    //         title: '状态',
+    //         dataIndex: 'enabled',
+    //         key: 'enabled'
+    //     },
+    //     {
+    //         title: '',
+    //         // dataIndex: 'operations',
+    //         key: 'operations',
+    //         render: (text, record) => (
+    //             <Button shape="circle" funcType="flat" icon="more_vert" />
+    //         ),
+    //         filters: [{
+    //             text: 'London',
+    //             value: 'London',
+    //         }, {
+    //             text: 'New York',
+    //             value: 'New York',
+    //         }],
+    //         onFilter: (value, record) => record.address.indexOf(value) === 0,
+    //     }
+    // ];
 
     // 存储角色数据
     @observable roleData = {};
@@ -109,10 +136,10 @@ class RoleManageStore {
         this.roleData = value;
     }
 
-    @computed
-    get getRoleColumn() {
-        return this.columns.slice();
-    }
+    // @computed
+    // get getRoleColumn() {
+    //     return this.columns.slice();
+    // }
 
     @computed
     get getLevelData() {
@@ -121,11 +148,13 @@ class RoleManageStore {
 
     @computed
     get getRoleData() {
-        console.log(this.roleData);
+        // console.log(this.roleData);
         if (this.roleData === {}) {
             this.setRoleData();
+            // this.roleData.data = this.roleData.data.slice();
         }
-        // this.roleData.data = this.roleData.data.slice();
+        // let roleData = this.roleData;
+        // roleData.data = roleData.data.slice();
         return this.roleData;
     }
 
@@ -137,8 +166,8 @@ class RoleManageStore {
             let roleList = response.list;
             for (let i = 0; i < roleList.length; i++) {
                 roleList[i]['key'] = roleList[i].id;
-                roleList[i].buildIn = roleList[i].buildIn ? <div><Icon type="settings" style={{ marginRight: '.05rem' }} />预定义</div> : <div><Icon type="av_timer" style={{ marginRight: '.05rem' }} />自定义</div>;
-                roleList[i].enabled = roleList[i].enabled ? <div><Icon type="check_circle" style={{ color: 'rgb(0, 191, 165)', marginRight: '.05rem' }} />启用</div> : <div><Icon type="remove_circle" style={{ color: 'rgb(211, 211, 211)', marginRight: '.05rem' }} />停用</div>;
+                roleList[i].buildIn = roleList[i].buildIn ? <p><Icon type="settings" style={{ marginRight: '.05rem' }} />预定义</p> : <div><Icon type="av_timer" style={{ marginRight: '.05rem' }} />自定义</div>;
+                roleList[i].enabled = roleList[i].enabled ? <p><Icon type="check_circle" style={{ color: 'rgb(0, 191, 165)', marginRight: '.05rem' }} />启用</p> : <div><Icon type="remove_circle" style={{ color: 'rgb(211, 211, 211)', marginRight: '.05rem' }} />停用</div>;
                 if (roleList[i].level === 'site') {
                     roleList[i].level = '全局';
                 } else if (roleList[i].level === 'organization') {
