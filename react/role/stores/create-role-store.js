@@ -41,6 +41,9 @@ class CreateRoleStore {
     // 全局菜单数据
     @observable siteMenusData = [];
 
+    // 表单数据
+    @observable formData = {};
+
     @computed
     get getLabels() {
         return this.labels.slice();
@@ -125,6 +128,11 @@ class CreateRoleStore {
     @action
     clearExpandedRowKey() {
         this.expandedRowKeys = [];
+    }
+
+    @action
+    setFormData(value) {
+        this.formData = value;
     }
 
     // 发送请求，设置 menus 表格数据

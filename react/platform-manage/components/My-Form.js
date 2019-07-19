@@ -25,7 +25,16 @@ class MyForm extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                // 校验成功，提交表单数据前，对数据进行处理
+                values.name = values.name.trimLeft();
+                values.labels = values.labels.map((item) => (
+                    { id: item }
+                ));
+                values.level = roleManageStore.levelBtnObj.code;
+                values.code = `role/${values.level}/custom/${ values.code}`;
+                // 提交数据到 store 中
+                createRoleStore.setFormData(values);
+                console.log('从页面上的表单获取的数据： ', values);
             }
         });
     }
@@ -44,22 +53,24 @@ class MyForm extends Component {
                 <FormItem
                     validateStatus={labelsError ? 'error' : ''}
                     help={labelsError || ''}
-                    label="Select[multiple]"
+                    label="labels"
                     style={{ margin: '.3rem 0' }}
                 >
-                    {getFieldDecorator('select-multiple', {
-                        rules: [
-                            { required: true, message: '角色标签', type: 'array' },
-                        ],
-                    })(
-                        <Select mode="multiple" placeholder="请选择角色标签" style={{ width: '4.45rem' }}>
-                            {
-                                data.map(({ id, name }) => (
-                                    <Option value={name} key={id}>{name}</Option>
-                                ))
-                            }
-                        </Select>,
-                    )}
+                    {
+                        getFieldDecorator('labels', {
+                            rules: [
+                                { required: false, message: '角色标签', type: 'array' },
+                            ],
+                        })(
+                            <Select mode="multiple" placeholder="请选择角色标签" style={{ width: '4.45rem' }}>
+                                {
+                                    data.map(({ id, name }) => (
+                                        <Option value={id} key={id}>{name}</Option>
+                                    ))
+                                }
+                            </Select>,
+                        )
+                    }
                 </FormItem>);
         }
 
@@ -68,27 +79,33 @@ class MyForm extends Component {
                 <FormItem
                     validateStatus={codeError ? 'error' : ''}
                     help={codeError || ''}
+                    label='code'
                 >
-                    {getFieldDecorator('code', {
-                        rules: [
-                            { required: true, message: '请输入角色编码' },
-                            { pattern: /^[a-zA-Z][a-zA-Z0-9_\-/]*$/ig, message: '编码必须以字母开头，只能输入字母，数字，_，-，/' }
-                        ],
-                    })(
-                        <Input prefix={`role/${roleManageStore.levelBtnObj.code}/custom/`} placeholder="角色编码" />
-                    )}
+                    {
+                        getFieldDecorator('code', {
+                            rules: [
+                                { required: true, message: '请输入角色编码' },
+                                { pattern: /^[a-zA-Z][a-zA-Z0-9_\-/]*$/ig, message: '编码必须以字母开头，只能输入字母，数字，_，-，/' }
+                            ],
+                        })(
+                            <Input prefix={`role/${roleManageStore.levelBtnObj.code}/custom/`} placeholder="角色编码" />
+                        )
+                    }
                 </FormItem>
                 <FormItem
                     validateStatus={nameError ? 'error' : ''}
                     help={nameError || ''}
+                    label='name'
                 >
-                    {getFieldDecorator('name', {
-                        rules: [
-                            { required: true, message: '请输入角色名称' },
-                        ],
-                    })(
-                        <Input placeholder="角色名称" />
-                    )}
+                    {
+                        getFieldDecorator('name', {
+                            rules: [
+                                { required: true, message: '请输入角色名称' },
+                            ],
+                        })(
+                            <Input placeholder="角色名称" />
+                        )
+                    }
                 </FormItem>
                 <br />
 
