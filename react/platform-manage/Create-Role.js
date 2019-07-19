@@ -3,6 +3,7 @@ import { Row, Col, Button } from 'choerodon-ui';
 import { Link } from 'react-router-dom';
 import {  observer } from 'mobx-react';
 import MySidemenu from '../master/My-Sidemenu';
+import MyForm from './components/My-Form';
 import '../styles/sub-header.css';
 
 class CreateRole extends Component {
@@ -21,10 +22,13 @@ class CreateRole extends Component {
                 <Col span={ 19 }>
                     <div className='box-content'>
                         <div id='sub-header'>
-                            <Link to='/25156/role-manage' style={{ marginRight: '.05rem' }}>
+                            <Link to='/25156/role-manage' style={{ marginRight: '.05rem' }} title='返回'>
                                 <Button type="primary" funcType="flat" shape="circle" icon="arrow_back" size='large' />
                             </Link>
                             <h2>创建角色</h2>
+                        </div>
+                        <div style={{ marginTop: '1.1rem' }}>
+                            <MyForm />
                         </div>
                     </div>
                 </Col>
