@@ -10,6 +10,7 @@ import PlatformManage from './platform-manage/index';
 import RoleManege from './platform-manage/Role-Manage';
 import MenuSettings from './platform-manage/Menu-Settings';
 import OrganizationKind from './platform-manage/Organization-Kind';
+import CreateRole from './platform-manage/Create-Role';
 
 // const RoleManage = asyncRouter(() => import('./role-manage/index'));
 
@@ -32,6 +33,8 @@ class RouteIndex extends React.Component {
                 <Route  path={ `${ match.url }/organization-kind` } component={ OrganizationKind } />
                 <Route  path={ `${ match.url }/role-manage` } component={ RoleManege } />
                 <Route  path={ `${ match.url }/menu-settings` } component={ MenuSettings } />
+                {/* 角色管理中的路由 */}
+                <Route path={ `${ match.url }/create` } component={ CreateRole } />
                 <Route path="*" component={ nomatch } />
             </Switch>
         );

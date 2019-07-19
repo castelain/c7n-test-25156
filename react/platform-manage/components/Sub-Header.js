@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Menu, Icon, Button } from 'choerodon-ui';
 import { Dropdown } from 'choerodon-ui/pro';
 import { observer } from 'mobx-react';
+import { Link } from 'react-router-dom';
 import roleManageStore from '../../role/stores/role-manage-store';
 import '../../styles/sub-header.less';
 
@@ -45,7 +46,9 @@ class SubHeader extends Component {
                             {roleManageStore.levelBtnObj.name} <Icon type="arrow_drop_down" />
                         </a>
                     </Dropdown>
-                    <Button type="primary" funcType="flat" icon="playlist_add">创建角色</Button>
+                    <Button type="primary" funcType="flat" icon="playlist_add">
+                        <Link to='/25156/create'>创建角色</Link>
+                    </Button>
                     <Button type="primary" funcType="flat" icon="content_copy">基于所选角色创建</Button>
                     <Button type="primary" funcType="flat" icon="refresh">刷新</Button>
                 </div>

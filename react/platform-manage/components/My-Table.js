@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Table, Icon, Input, Button } from 'choerodon-ui';
+import { Table, Icon, Input, Button, Popover, List } from 'choerodon-ui';
 import { observer } from 'mobx-react';
 import roleManageStore from '../../role/stores/role-manage-store';
+import '../../styles/my-table.less';
 
 @observer
 class MyTable extends Component {
@@ -97,7 +98,9 @@ class MyTable extends Component {
                     title: '',
                     key: 'operations',
                     render: (text, record) => (
-                        <Button shape="circle" funcType="flat" icon="more_vert" />
+                        <Popover content={this.popoverContent} trigger="click" placement="bottomRight">
+                            <Button shape="circle" funcType="flat" icon="more_vert" />
+                        </Popover>
                     ),
                 }
             ],
@@ -107,6 +110,11 @@ class MyTable extends Component {
         this.onInputChange = this.onInputChange.bind(this);
         this.onSearch = this.onSearch.bind(this);
     }
+
+    popoverContent = <List
+        dataSource={ [ '基于该角色创建', '修改', '停用' ] }
+        renderItem={item => (<List.Item className='listItem'  key={item}>{item}</List.Item>)}
+    />;
 
     handleTableChange = (pagination, filters, sorter) => {
         const pager = { ...this.state.pagination };
@@ -124,7 +132,7 @@ class MyTable extends Component {
     }
 
     onSelectChange = (selectedRowKeys) => {
-        console.log('selectedRowKeys changed: ', selectedRowKeys);
+        // console.log('selectedRowKeys changed: ', selectedRowKeys);
         this.setState({ selectedRowKeys });
     }
 
@@ -166,6 +174,7 @@ class MyTable extends Component {
             selectedRowKeys,
             onChange: this.onSelectChange,
         };
+
         return (
             <div>
                 <Table rowSelection={rowSelection}
