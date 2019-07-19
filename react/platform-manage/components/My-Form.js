@@ -5,6 +5,7 @@ import roleManageStore from '../../role/stores/role-manage-store';
 import createRoleStore from '../../role/stores/create-role-store';
 import { Link } from 'react-router-dom';
 import '../../styles/my-form.less';
+import MyTabs from './My-Tabs';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -63,7 +64,7 @@ class MyForm extends Component {
         }
 
         return (
-            <Form layout="inline" onSubmit={this.handleSubmit} style={{ width: '6rem' }}>
+            <Form layout="inline" onSubmit={this.handleSubmit}>
                 <FormItem
                     validateStatus={codeError ? 'error' : ''}
                     help={codeError || ''}
@@ -71,7 +72,7 @@ class MyForm extends Component {
                     {getFieldDecorator('code', {
                         rules: [
                             { required: true, message: '请输入角色编码' },
-                            { pattern: /^[a-z|A-Z][a-z|A-Z|0-9|\-|_|\/]/g, message: '编码必须以字母开头，只能输入字母，数字，_，-，/' }
+                            { pattern: /^[a-zA-Z][a-zA-Z0-9_\-/]*$/ig, message: '编码必须以字母开头，只能输入字母，数字，_，-，/' }
                         ],
                     })(
                         <Input prefix={`role/${roleManageStore.levelBtnObj.code}/custom/`} placeholder="角色编码" />
@@ -84,7 +85,6 @@ class MyForm extends Component {
                     {getFieldDecorator('name', {
                         rules: [
                             { required: true, message: '请输入角色名称' },
-                            { pattern: /^[a-z|A-Z][a-z|A-Z|0-9|\-|_|\/]/g, message: '编码必须以字母开头，只能输入字母，数字，_，-，/' }
                         ],
                     })(
                         <Input placeholder="角色名称" />
@@ -95,6 +95,8 @@ class MyForm extends Component {
                 {
                     createRoleStore.getLabels ? getOptions(createRoleStore.getLabels) : <Spin />
                 }
+
+                <MyTabs />
 
                 <FormItem className='btn-group'>
                     <Button funcType="raised"
