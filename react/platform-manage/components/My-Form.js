@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { Form, Icon, Input, Button, Select, Spin } from 'choerodon-ui';
+import React, { Component } from 'react';
+import { Form, Input, Button, Select, Spin } from 'choerodon-ui';
 import { observer } from 'mobx-react';
 import roleManageStore from '../../role/stores/role-manage-store';
 import createRoleStore from '../../role/stores/create-role-store';
@@ -36,29 +36,10 @@ class MyForm extends Component {
         const codeError = isFieldTouched('code') && getFieldError('code');
         const nameError = isFieldTouched('name') && getFieldError('name');
         const labelsError = isFieldTouched('labels') && getFieldError('labels');
-        return (
-            <Form layout="inline" onSubmit={this.handleSubmit} style={{ width: '6rem' }}>
-                <FormItem
-                    validateStatus={codeError ? 'error' : ''}
-                    help={codeError || ''}
-                >
-                    {getFieldDecorator('code', {
-                        rules: [{ required: true, message: '请输入角色编码' }],
-                    })(
-                        <Input prefix={`role/${roleManageStore.levelBtnObj.code}/custom/`} placeholder="角色编码" />
-                    )}
-                </FormItem>
-                <FormItem
-                    validateStatus={nameError ? 'error' : ''}
-                    help={nameError || ''}
-                >
-                    {getFieldDecorator('name', {
-                        rules: [{ required: true, message: '请输入角色名称' }],
-                    })(
-                        <Input placeholder="角色名称" />
-                    )}
-                </FormItem>
-                <br />
+
+        let getOptions = (data) => {
+            console.log('data: ', data);
+            return (
                 <FormItem
                     validateStatus={labelsError ? 'error' : ''}
                     help={labelsError || ''}
@@ -72,16 +53,48 @@ class MyForm extends Component {
                     })(
                         <Select mode="multiple" placeholder="请选择角色标签" style={{ width: '4.45rem' }}>
                             {
-                                !createRoleStore.getLabels ? <Option key='0'>加载中</Option> : <Fragment> {
-                                    createRoleStore.getLabels.map(({ id, name }) => (
-                                        <Option value={name} key={id}>{name}</Option>
-                                    ))
-                                }</Fragment>
+                                data.map(({ id, name }) => (
+                                    <Option value={name} key={id}>{name}</Option>
+                                ))
                             }
-                        </Select>
+                        </Select>,
+                    )}
+                </FormItem>);
+        }
+
+        return (
+            <Form layout="inline" onSubmit={this.handleSubmit} style={{ width: '6rem' }}>
+                <FormItem
+                    validateStatus={codeError ? 'error' : ''}
+                    help={codeError || ''}
+                >
+                    {getFieldDecorator('code', {
+                        rules: [
+                            { required: true, message: '请输入角色编码' },
+                            { pattern: /^[a-z|A-Z][a-z|A-Z|0-9|\-|_|\/]/g, message: '编码必须以字母开头，只能输入字母，数字，_，-，/' }
+                        ],
+                    })(
+                        <Input prefix={`role/${roleManageStore.levelBtnObj.code}/custom/`} placeholder="角色编码" />
                     )}
                 </FormItem>
+                <FormItem
+                    validateStatus={nameError ? 'error' : ''}
+                    help={nameError || ''}
+                >
+                    {getFieldDecorator('name', {
+                        rules: [
+                            { required: true, message: '请输入角色名称' },
+                            { pattern: /^[a-z|A-Z][a-z|A-Z|0-9|\-|_|\/]/g, message: '编码必须以字母开头，只能输入字母，数字，_，-，/' }
+                        ],
+                    })(
+                        <Input placeholder="角色名称" />
+                    )}
+                </FormItem>
+                <br />
 
+                {
+                    createRoleStore.getLabels ? getOptions(createRoleStore.getLabels) : <Spin />
+                }
 
                 <FormItem className='btn-group'>
                     <Button funcType="raised"
@@ -89,7 +102,7 @@ class MyForm extends Component {
                         htmlType="submit"
                         disabled={hasErrors(getFieldsError())}>
                         创建
-                        </Button>
+                    </Button>
                     <Button funcType="raised">
                         <Link to='/25156/role-manage' style={{ marginRight: '.05rem' }}>
                             取消
@@ -100,7 +113,7 @@ class MyForm extends Component {
         );
     }
     componentDidMount() {
-        createRoleStore.setLabels();
+        createRoleStore.setLabels(roleManageStore.levelBtnObj.code);
         this.props.form.validateFields();
     }
 }

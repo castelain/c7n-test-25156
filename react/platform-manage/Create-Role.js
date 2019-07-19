@@ -27,7 +27,7 @@ class CreateRole extends Component {
                             </Link>
                             <h2>创建角色</h2>
                         </div>
-                        <div style={{ marginTop: '1.1rem' }}>
+                        <div style={{ marginTop: '1rem' }}>
                             <MyForm />
                         </div>
                     </div>
