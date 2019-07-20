@@ -11,6 +11,9 @@ class RoleManageStore {
 
     @observable description = '角色是您可分配给成员的一组权限。您可以创建角色并为其添加权限，也可以复制现有角色并调整其权限。';
 
+    // 控制二级菜单中的‘基于所选角色创建’的按钮的可用与否
+    @observable canBaseSelectedCreate = false;
+
     // 角色数据请求基础地址
     @observable baseUrl = '/iam/v1/roles/search?sort=id,desc';
 
@@ -71,10 +74,10 @@ class RoleManageStore {
         this.roleData = value;
     }
 
-    // @computed
-    // get getRoleColumn() {
-    //     return this.columns.slice();
-    // }
+    @action
+    toggoleCanBaseSelectedCreate() {
+        this.canBaseSelectedCreate = !this.canBaseSelectedCreate;
+    }
 
     @computed
     get getLevelData() {

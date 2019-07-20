@@ -134,6 +134,7 @@ class MyTable extends Component {
     onSelectChange = (selectedRowKeys) => {
         // console.log('selectedRowKeys changed: ', selectedRowKeys);
         this.setState({ selectedRowKeys });
+        roleManageStore.toggoleCanBaseSelectedCreate();
     }
 
     // 筛选表格数据

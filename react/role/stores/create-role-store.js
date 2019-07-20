@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { observable, computed, action, set } from 'mobx';
 import { Icon, Button } from 'choerodon-ui';
 import { axios } from '@choerodon/boot';
-import MySidebar from '../../platform-manage/components/My-Sidebar';
 
 class CreateRoleStore {
     // 控制侧边栏的显示与否

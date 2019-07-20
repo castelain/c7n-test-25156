@@ -53,7 +53,7 @@ class SubHeader extends Component {
                         </Button>
                     </Link>
                     
-                    <Button type="primary" funcType="flat" icon="content_copy">基于所选角色创建</Button>
+                    <Button type="primary" funcType="flat" icon="content_copy" disabled={ !roleManageStore.canBaseSelectedCreate }>基于所选角色创建</Button>
                     <Button type="primary" funcType="flat" icon="refresh">刷新</Button>
                 </div>
                 <div id='sub-header-info'>

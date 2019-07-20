@@ -12,7 +12,7 @@
   color: #f50;
 }
 .listItem {
-  padding: 0.1rem .015rem;
+  padding: 0.1rem .006rem;
 }
 .listItem:hover {
   background-color: rgba(0, 0, 0, 0.1);
