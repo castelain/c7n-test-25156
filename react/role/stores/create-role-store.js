@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import { observable, computed, action, set } from 'mobx';
 import { Icon, Button } from 'choerodon-ui';
 import { axios } from '@choerodon/boot';
+import MySidebar from '../../platform-manage/components/My-Sidebar';
 
 class CreateRoleStore {
+    // 控制侧边栏的显示与否
+    @observable visible = false;
+
     // 表单部分数据源
     // 表单预设 labels 数据源
     @observable labels = [];
@@ -15,30 +19,11 @@ class CreateRoleStore {
     @observable fullExpandedRowKeys = [];
     // 数据项的 children 映射数组 （Object(Array))）
     @observable recordChildrenObj = {};
-    // 某一数据项的 children 数组
-    // @observable recordChildren = [];
 
-    // 表头数据
-    @observable columns = [
-        {
-        title: '菜单',
-        dataIndex: 'name',
-        key: 'name',
-        }, {
-            title: '页面入口',
-            dataIndex: 'route',
-            key: 'route',
-            // width: '12%',
-        }, {
-            title: '',
-            dataIndex: 'option',
-            // width: '30%',
-            key: 'option',
-            render: (text, record) => (
-                <Button shape="circle" funcType="flat" icon="predefine" style={{ transform: 'scale(.9)' }} title='配置' />
-            )
-        }
-    ];
+    // 表格选择的数据
+    @observable tableData = {};
+    // 表单提交的数据
+    @observable formData = {};
 
     // 用户菜单数据
     @observable userMenusData = [];
@@ -57,11 +42,6 @@ class CreateRoleStore {
     @computed
     get getIsAllOpened() {
         return this.isAllOpened;
-    }
-
-    @computed
-    get getColumns() {
-        return this.columns.slice();
     }
 
     @action
@@ -143,11 +123,11 @@ class CreateRoleStore {
     @action
     loadRecordChildren(key) {
         // console.log('key: ', key);
-        // console.log('this.recordChildrenObj of ', key, this.recordChildrenObj[key]);
+        // console.log( this.recordChildrenObj[key]);
         // console.log('this.recordChildrenObj: ', this.recordChildrenObj);
-        if(this.recordChildrenObj.hasOwnProperty(key)){
+        if (this.recordChildrenObj.hasOwnProperty(key)) {
             return this.recordChildrenObj[key].slice();
-        }else {
+        } else {
             return [];
         }
     }
@@ -155,6 +135,16 @@ class CreateRoleStore {
     @action
     addRecordChildrenObj(key, recordChildren) {
         this.recordChildrenObj[key] = recordChildren;
+    }
+
+    @action
+    setFormData(value) {
+        this.formData = value;
+    }
+
+    @action
+    setTableData(value) {
+        this.tableData = value;
     }
 
     // 发送请求，设置 menus 表格数据
@@ -195,6 +185,11 @@ class CreateRoleStore {
             });
     }
 
+    // 设置侧边栏的显示与否
+    @action
+    setVisible(value) {
+        this.visible = value;
+    }
 }
 
 const store = new CreateRoleStore();

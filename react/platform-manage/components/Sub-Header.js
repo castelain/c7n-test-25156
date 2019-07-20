@@ -46,9 +46,13 @@ class SubHeader extends Component {
                             {roleManageStore.levelBtnObj.name} <Icon type="arrow_drop_down" />
                         </a>
                     </Dropdown>
-                    <Button type="primary" funcType="flat" icon="playlist_add">
-                        <Link to='/25156/create'>创建角色</Link>
-                    </Button>
+                    
+                    <Link to='/25156/create'>
+                        <Button type="primary" funcType="flat" icon="playlist_add">
+                            创建角色
+                        </Button>
+                    </Link>
+                    
                     <Button type="primary" funcType="flat" icon="content_copy">基于所选角色创建</Button>
                     <Button type="primary" funcType="flat" icon="refresh">刷新</Button>
                 </div>

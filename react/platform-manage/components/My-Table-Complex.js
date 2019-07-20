@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Table } from 'choerodon-ui';
 import { observer } from 'mobx-react';
 import createRoleStore from '../../role/stores/create-role-store';
+import MySidebar from './My-Sidebar';
 
 @observer
 class MyTableComplex extends Component {
@@ -11,15 +12,39 @@ class MyTableComplex extends Component {
         this.handleExpand = this.handleExpand.bind(this);
     }
 
+    // 表头数据
+    columns = [
+        {
+            title: '菜单',
+            dataIndex: 'name',
+            key: 'name',
+        }, {
+            title: '页面入口',
+            dataIndex: 'route',
+            key: 'route',
+            // width: '12%',
+        }, {
+            title: '',
+            dataIndex: 'option',
+            // width: '30%',
+            key: 'option',
+            render: (text, record) => (
+                // <Button shape="circle" funcType="flat" icon="predefine" style={{ transform: 'scale(.9)' }} title='配置' />
+                record.hasOwnProperty('children') ? '' : <MySidebar record={ record } />
+            )
+        }
+    ];
+
     rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
             console.log('createRoleStore.recordChildrenObj[7714]: ', createRoleStore.loadRecordChildren(7714));
-
+            // console.log(createRoleStore.recordChildrenObj);
         },
         onSelect: (record, selected, selectedRows) => {
-            console.log('selected rows: ', record, selected, selectedRows);
-            
+            // console.log('从页面上的表格获取的选择数据: ', record, selected, selectedRows);
+            createRoleStore.setTableData({ record });
+
         },
         onSelectAll: (selected, selectedRows, changeRows) => {
             console.log(selected, selectedRows, changeRows);
@@ -44,7 +69,7 @@ class MyTableComplex extends Component {
 
     render() {
         return (
-            <Table columns={createRoleStore.getColumns}
+            <Table columns={this.columns}
                 rowSelection={this.rowSelection}
                 dataSource={this.props.data}
                 pagination={false}
@@ -56,9 +81,9 @@ class MyTableComplex extends Component {
                 // expandedRowKeys={['0', '2',]}
                 expandedRowKeys={createRoleStore.getExpandedRowKeys}
                 onExpand={this.handleExpand}
-                // selectedRowKeys={ [7714] }
-                // expandRowByClick={true}
-                // indentSize={15}
+            // selectedRowKeys={ [7714] }
+            // expandRowByClick={true}
+            // indentSize={15}
             />
         );
     }

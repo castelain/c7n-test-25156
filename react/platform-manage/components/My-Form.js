@@ -3,7 +3,7 @@ import { Form, Input, Button, Select, Spin } from 'choerodon-ui';
 import { observer } from 'mobx-react';
 import roleManageStore from '../../role/stores/role-manage-store';
 import createRoleStore from '../../role/stores/create-role-store';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import '../../styles/my-form.less';
 import MyTabs from './My-Tabs';
 const FormItem = Form.Item;
@@ -37,7 +37,11 @@ class MyForm extends Component {
                 values.code = `role/${values.level}/custom/${ values.code}`;
                 // 提交数据到 store 中
                 createRoleStore.setFormData(values);
-                console.log('从页面上的表单获取的数据： ', values);
+                console.log('=====================================');
+                console.log('从页面上的表单获取的数据： ', createRoleStore.formData);
+                console.log('从页面上的表格获取的数据：', createRoleStore.tableData);
+                console.log('=====================================');
+                this.props.history.push('/25156/role-manage');
             }
         });
     }
@@ -141,5 +145,5 @@ class MyForm extends Component {
 }
 
 const WrappedMyFormMyForm = Form.create()(MyForm);
-export default WrappedMyFormMyForm;
+export default withRouter(WrappedMyFormMyForm);
 
