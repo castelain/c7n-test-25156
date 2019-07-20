@@ -26,7 +26,10 @@ class MyForm extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 // 校验成功，提交表单数据前，对数据进行处理
+                // 去除角色名称左边的所有空格
                 values.name = values.name.trimLeft();
+                // 去除角色名称左边的首位空格
+                // values.name = values.name.replace(/^\s/g,'');
                 values.labels = values.labels.map((item) => (
                     { id: item }
                 ));

@@ -13,6 +13,10 @@ class CreateRoleStore {
     // 控制菜单项展开与否的数组
     @observable expandedRowKeys = [];
     @observable fullExpandedRowKeys = [];
+    // 数据项的 children 映射数组 （Object(Array))）
+    @observable recordChildrenObj = {};
+    // 某一数据项的 children 数组
+    // @observable recordChildren = [];
 
     // 表头数据
     @observable columns = [{
@@ -135,6 +139,29 @@ class CreateRoleStore {
         this.formData = value;
     }
 
+    // 添加某一行数据的 child (带上自己)
+    // @action
+    // addRecordChildren(record) {
+    //     this.recordChildren.push(record)
+    // }
+
+    @action
+    loadRecordChildren(key) {
+        console.log('key: ', key);
+        console.log('this.recordChildrenObj of ', key, this.recordChildrenObj[key]);
+        console.log('this.recordChildrenObj: ', this.recordChildrenObj);
+        if(this.recordChildrenObj.has(key)){
+            return this.recordChildrenObj[key].slice();
+        }else {
+            return [];
+        }
+    }
+
+    @action
+    addRecordChildrenObj(key, recordChildren) {
+        this.recordChildrenObj[key] = recordChildren;
+    }
+
     // 发送请求，设置 menus 表格数据
     @action
     setMenusData(type) {
@@ -143,6 +170,7 @@ class CreateRoleStore {
             .then((response) => {
                 for (let i = 0; i < response.subMenus.length; i++) {
                     let data = response.subMenus[i];
+                    let recordChildren = [];
                     data.children = data.subMenus;
                     data.key = data.id;
                     this.addExpandedRowKey(data.key);
@@ -152,8 +180,10 @@ class CreateRoleStore {
                         item.key = item.id;
                         this.addExpandedRowKey(item.key);
                         item.name = <span><Icon type={item.icon} style={{ marginRight: '.1rem' }} />{item.name}</span>;
+                        recordChildren.push(data.children[j]);
                     }
-
+                    this.addRecordChildrenObj(data.key, recordChildren);
+                    // console.log('this.recordChildrenObj: ', this.recordChildrenObj);
                 }
                 this.fullExpandedRowKeys = this.expandedRowKeys;
                 if (type === 'site') {

@@ -11,21 +11,23 @@ class MyTableComplex extends Component {
         this.handleExpand = this.handleExpand.bind(this);
     }
 
-    // this. objects indicates the need for row selection
     rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            console.log('createRoleStore.recordChildrenObj: ', createRoleStore.loadRecordChildren(7714));
         },
         onSelect: (record, selected, selectedRows) => {
-            console.log(record, selected, selectedRows);
+            console.log('selected rows: ', record, selected, selectedRows);
+            
         },
         onSelectAll: (selected, selectedRows, changeRows) => {
             console.log(selected, selectedRows, changeRows);
         },
-        getCheckboxProps: record => ({
-            disabled: record.name === 'Disabled User', // Column configuration not to be checked
-            name: record.name,
-        }),
+        // getCheckboxProps: record => ({
+        //     // disabled: record.name === 'Disabled User', // Column configuration not to be checked
+        //     name: record.name,
+        //     checked: true
+        // }),
         selections: true,
     };
 
@@ -53,6 +55,7 @@ class MyTableComplex extends Component {
                 // expandedRowKeys={['0', '2',]}
                 expandedRowKeys={createRoleStore.getExpandedRowKeys}
                 onExpand={this.handleExpand}
+                selectedRowKeys={ createRoleStore.getExpandedRowKeys }
             // expandRowByClick={true}
             // indentSize={15}
             />

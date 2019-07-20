@@ -6,7 +6,7 @@ import MyTableComplex from '../components/My-Table-Complex';
 const TabPane = Tabs.TabPane;
 
 function callback(key) {
-    console.log(key);
+    // console.log(key);
 }
 
 @observer
