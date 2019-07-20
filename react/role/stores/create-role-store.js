@@ -30,6 +30,10 @@ class CreateRoleStore {
     // 全局菜单数据
     @observable siteMenusData = [];
 
+    @observable projecMenustData = [];
+
+    @observable organizationMenusData = [];
+
     // 表单数据
     @observable formData = {};
 
@@ -77,6 +81,16 @@ class CreateRoleStore {
     @computed
     get getUserMenusData() {
         return this.userMenusData.slice();
+    }
+
+    @computed
+    get getProjectMenusData() {
+        return this.projecMenustData.slice();
+    }
+
+    @computed
+    get getOrganizationMenusData() {
+        return this.organizationMenusData.slice();
     }
 
     @computed
@@ -159,12 +173,14 @@ class CreateRoleStore {
                     data.key = data.id;
                     this.addExpandedRowKey(data.key);
                     data.name = <span><Icon type={data.icon} style={{ marginRight: '.1rem' }} />{data.name}</span>;
-                    for (let j = 0; j < data.children.length; j++) {
-                        let item = data.children[j];
-                        item.key = item.id;
-                        this.addExpandedRowKey(item.key);
-                        item.name = <span><Icon type={item.icon} style={{ marginRight: '.1rem' }} />{item.name}</span>;
-                        recordChildren.push(data.children[j]);
+                    if(data.children){
+                        for (let j = 0; j < data.children.length; j++) {
+                            let item = data.children[j];
+                            item.key = item.id;
+                            this.addExpandedRowKey(item.key);
+                            item.name = <span><Icon type={item.icon} style={{ marginRight: '.1rem' }} />{item.name}</span>;
+                            recordChildren.push(data.children[j]);
+                        }
                     }
                     this.addRecordChildrenObj(data.key, recordChildren);
                     // console.log('this.recordChildrenObj: ', this.recordChildrenObj);
@@ -174,9 +190,15 @@ class CreateRoleStore {
                     this.siteMenusData = response.subMenus;
                 } else if (type === 'user') {
                     this.userMenusData = response.subMenus;
-                } else {
-                    return [];
+                } else if(type === 'project') {
+                    this.projecMenustData = response.subMenus;
+                }else if(type === 'organization') {
+                    // console.log('response: ', response);
+                    this.organizationMenusData = response.subMenus;
                 }
+                // this.organizationMenusData = response.subMenus;
+                // console.log('response: ', response);
+                // console.log('---', this.organizationMenusData, '---');
             })
             .catch((error) => {
                 // throw (new Error('Error: ', error));

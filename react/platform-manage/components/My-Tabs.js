@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Tabs, Button } from 'choerodon-ui';
 import { observer } from 'mobx-react';
 import createRoleStore from '../../role/stores/create-role-store';
+import roleManageStore from '../../role/stores/role-manage-store';
 import MyTableComplex from '../components/My-Table-Complex';
 const TabPane = Tabs.TabPane;
 
@@ -26,15 +27,47 @@ class MyTabs extends Component {
             ]
         }
         this.toggleOpen = this.toggleOpen.bind(this);
+        this.getTabs = this.getTabs.bind(this);
     }
 
     toggleOpen() {
-        if(createRoleStore.getIsAllOpened){
+        if (createRoleStore.getIsAllOpened) {
             createRoleStore.clearExpandedRowKey();
-        }else{
+        } else {
             createRoleStore.setExpandedRowKey(createRoleStore.getFullExpandedRowKeys);
         }
         createRoleStore.toggleIsAllOpened();
+    }
+
+    getTabs() {
+        if (roleManageStore.levelBtnObj.code === 'site') {
+            return (
+                <Tabs defaultActiveKey="site" onChange={callback}>
+                    <TabPane tab="全局层" key="site">
+                        <MyTableComplex data={createRoleStore.getSiteMenusData} />
+                    </TabPane>
+                    <TabPane tab="个人中心" key="user">
+                        <MyTableComplex data={createRoleStore.getUserMenusData} />
+                    </TabPane>
+                </Tabs>
+            );
+        } else if (roleManageStore.levelBtnObj.code === 'project') {
+            return (
+                <Tabs defaultActiveKey="project" onChange={callback}>
+                    <TabPane tab="项目层" key="project">
+                        <MyTableComplex data={createRoleStore.getProjectMenusData} />
+                    </TabPane>
+                </Tabs>
+            );
+        } else if(roleManageStore.levelBtnObj.code === 'organization') {
+            return (
+                <Tabs defaultActiveKey="organization" onChange={callback}>
+                    <TabPane tab="组织层" key="organization">
+                        <MyTableComplex data={createRoleStore.getOrganizationMenusData} />
+                    </TabPane>
+                </Tabs>
+            );
+        }
     }
 
     render() {
@@ -57,14 +90,9 @@ class MyTabs extends Component {
                     }
 
                 </div>
-                <Tabs defaultActiveKey="site" onChange={callback}>
-                    <TabPane tab="全局层" key="site">
-                        <MyTableComplex data={ createRoleStore.getSiteMenusData } />
-                    </TabPane>
-                    <TabPane tab="个人中心" key="user">
-                        <MyTableComplex data={ createRoleStore.getUserMenusData } />
-                    </TabPane>
-                </Tabs>
+                {
+                    this.getTabs()
+                }
             </div>
         );
     }
@@ -72,6 +100,10 @@ class MyTabs extends Component {
     componentDidMount() {
         createRoleStore.setMenusData('site');
         createRoleStore.setMenusData('user');
+        createRoleStore.setMenusData('project');
+        createRoleStore.setMenusData('organization');
+        // console.log('userMenusData: ', createRoleStore.userMenusData)
+        // console.log('organizationMenusData: ', createRoleStore.organizationMenusData);
     }
 }
 

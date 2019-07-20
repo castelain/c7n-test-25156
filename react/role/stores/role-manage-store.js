@@ -30,7 +30,7 @@ class RoleManageStore {
         {
             id: 1,
             name: '组织',
-            code: 'organization'
+            code: 'organization' 
         },
         {
             id: 2,
