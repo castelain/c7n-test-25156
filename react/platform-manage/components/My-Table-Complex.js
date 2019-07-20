@@ -14,7 +14,8 @@ class MyTableComplex extends Component {
     rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            console.log('createRoleStore.recordChildrenObj: ', createRoleStore.loadRecordChildren(7714));
+            console.log('createRoleStore.recordChildrenObj[7714]: ', createRoleStore.loadRecordChildren(7714));
+
         },
         onSelect: (record, selected, selectedRows) => {
             console.log('selected rows: ', record, selected, selectedRows);
@@ -55,9 +56,9 @@ class MyTableComplex extends Component {
                 // expandedRowKeys={['0', '2',]}
                 expandedRowKeys={createRoleStore.getExpandedRowKeys}
                 onExpand={this.handleExpand}
-                selectedRowKeys={ createRoleStore.getExpandedRowKeys }
-            // expandRowByClick={true}
-            // indentSize={15}
+                // selectedRowKeys={ [7714] }
+                // expandRowByClick={true}
+                // indentSize={15}
             />
         );
     }

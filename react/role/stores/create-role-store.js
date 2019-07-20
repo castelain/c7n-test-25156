@@ -19,24 +19,25 @@ class CreateRoleStore {
     // @observable recordChildren = [];
 
     // 表头数据
-    @observable columns = [{
+    @observable columns = [
+        {
         title: '菜单',
         dataIndex: 'name',
         key: 'name',
-    }, {
-        title: '页面入口',
-        dataIndex: 'route',
-        key: 'route',
-        // width: '12%',
-    }, {
-        title: '',
-        dataIndex: 'option',
-        // width: '30%',
-        key: 'option',
-        render: (text, record) => (
-            <Button shape="circle" funcType="flat" icon="predefine" style={{ transform: 'scale(.9)' }} title='配置' />
-        )
-    }
+        }, {
+            title: '页面入口',
+            dataIndex: 'route',
+            key: 'route',
+            // width: '12%',
+        }, {
+            title: '',
+            dataIndex: 'option',
+            // width: '30%',
+            key: 'option',
+            render: (text, record) => (
+                <Button shape="circle" funcType="flat" icon="predefine" style={{ transform: 'scale(.9)' }} title='配置' />
+            )
+        }
     ];
 
     // 用户菜单数据
@@ -139,18 +140,12 @@ class CreateRoleStore {
         this.formData = value;
     }
 
-    // 添加某一行数据的 child (带上自己)
-    // @action
-    // addRecordChildren(record) {
-    //     this.recordChildren.push(record)
-    // }
-
     @action
     loadRecordChildren(key) {
-        console.log('key: ', key);
-        console.log('this.recordChildrenObj of ', key, this.recordChildrenObj[key]);
-        console.log('this.recordChildrenObj: ', this.recordChildrenObj);
-        if(this.recordChildrenObj.has(key)){
+        // console.log('key: ', key);
+        // console.log('this.recordChildrenObj of ', key, this.recordChildrenObj[key]);
+        // console.log('this.recordChildrenObj: ', this.recordChildrenObj);
+        if(this.recordChildrenObj.hasOwnProperty(key)){
             return this.recordChildrenObj[key].slice();
         }else {
             return [];
